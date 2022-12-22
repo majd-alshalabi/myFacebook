@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\UpdateProfileImage;
+use App\Http\Requests\UpdateUserNameRequest;
 use App\Http\Requests\LoginRequest;
 
 
@@ -25,7 +27,7 @@ class PassportAuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'image' => $imageName,
+            'image' => "public/upload/".$imageName,
         ]);
        
         $token = $user->createToken('LaravelAuthApp')->accessToken;
@@ -50,4 +52,22 @@ class PassportAuthController extends Controller
             return response()->json(['error' => 'Unauthorised'], 401);
         }
     }
+
+    public function getProfile(Request $request){
+        return $this->sendResponse(['data' => $request->user()]);
+    }
+
+    public function updateProfileImage(UpdateProfileImage $request){
+        $imageName = time().'.'.$request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        User::where('id',$request->user()->id)->update(['image' => "public/upload/".$imageName]);
+        return $this->sendResponse(['data' => 'Update user image done']);
+    }
+    
+    public function updateUserName(UpdateUserNameRequest $request){
+        User::where('id',$request->user()->id)->update(['name' => $request->name]);
+        return $this->sendResponse(['data' => 'Update name updated succsfully']);
+    }
+
+
 }

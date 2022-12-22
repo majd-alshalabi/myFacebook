@@ -25,6 +25,10 @@ Route::post("/login", [PassportAuthController::class, "login"]);
 
 Route::middleware('auth:api')->group(function () {
 
+    Route::get("/getProfile", [PassportAuthController::class, "getProfile"]);
+    Route::post("/updateProfileImage", [PassportAuthController::class, "updateProfileImage"]);
+    Route::post("/updateUserName", [PassportAuthController::class, "updateUserName"]);
+
     Route::post("/addComment", [CommentController::class, "addComment"]);
     Route::post("/getPostComment", [CommentController::class, "getPostComment"]);
     Route::post("/deleteComment", [CommentController::class, "deleteComment"]);
