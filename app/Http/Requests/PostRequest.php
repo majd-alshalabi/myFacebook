@@ -27,6 +27,7 @@ class PostRequest extends FormRequest
     {
         return [
             'description' => 'required',
+            'type' => 'required'
         ];
     }
 
@@ -41,6 +42,7 @@ class PostRequest extends FormRequest
     {
         return [
             'description.required' => 'description validation error',
+            'type.required' => 'type validation error',
         ];
     }
 }

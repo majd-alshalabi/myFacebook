@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->string('description');
+            $table->unsignedInteger('type');
+            $table->string('file')->nullable();
             $table->unsignedBigInteger('like_number');
             $table->unsignedBigInteger('comment_number');
             $table->unsignedBigInteger('user_id');

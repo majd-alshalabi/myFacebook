@@ -18,10 +18,17 @@ class PostController extends Controller
     public function addPost(PostRequest $request)
     {
         $post = new Post();
+        if($request->file != null)
+        {
+            $fileName = time().'.'.$request->file->extension();
+            $request->file->move(public_path('post_files'), $fileName);
+            $post->file = "public/post_file/".$fileName;
+        }
         $user_id= $request->user()->id;
         $post->user_id = $user_id ;
         $post->description = $request->description;
         $post->like_number = 0 ;
+        $post->type = $request->type;
         $post->comment_number = 0 ;
         $post->save();
         return $this->sendResponse([$post]);
