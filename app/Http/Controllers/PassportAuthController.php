@@ -27,7 +27,7 @@ class PassportAuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'image' => "public/upload/".$imageName,
+            'image' => "public/images/".$imageName,
         ]);
        
         $token = $user->createToken('LaravelAuthApp')->accessToken;
